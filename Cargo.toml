@@ -1,9 +1,10 @@
 [workspace]
 members = [".", "sea-orm-macros", "sea-orm-codegen"]
+resolver = "1"
 
 [package]
 name = "sea-orm"
-version = "0.12.15"
+version = "0.12.17"
 authors = ["Chris Tsang <chris.2y3@outlook.com>"]
 edition = "2021"
 description = "🐚 An async & dynamic ORM for Rust"
@@ -23,6 +24,10 @@ rustdoc-args = ["--cfg", "docsrs"]
 name = "sea_orm"
 path = "src/lib.rs"
 
+[patch.crates-io]
+sqlx = { git = "ssh://git@github.com/fosskers/sqlx.git", rev = "6ecd2fc9904e86381db9f11c691688c18f475753"}
+sea-query-binder = { git = "ssh://git@github.com/fosskers/sea-query.git", rev = "74ac29ec41d1c7c9c85d542a727f0b342400789c"}
+
 [dependencies]
 async-stream = { version = "0.3", default-features = false }
 async-trait = { version = "0.1", default-features = false }
@@ -33,13 +38,13 @@ log = { version = "0.4", default-features = false }
 tracing = { version = "0.1", default-features = false, features = ["attributes", "log"] }
 rust_decimal = { version = "1", default-features = false, optional = true }
 bigdecimal = { version = "0.3", default-features = false, optional = true }
-sea-orm-macros = { version = "0.12.15", path = "sea-orm-macros", default-features = false, features = ["strum"] }
+sea-orm-macros = { version = "0.12.16", path = "sea-orm-macros", default-features = false, features = ["strum"] }
 sea-query = { version = "0.30.4", default-features = false, features = ["thread-safe", "hashable-value", "backend-mysql", "backend-postgres", "backend-sqlite"] }
-sea-query-binder = { version = "0.5.0", default-features = false, optional = true }
+sea-query-binder = { version = "0.5.1", default-features = false, optional = true }
 strum = { version = "0.25", default-features = false }
 serde = { version = "1.0", default-features = false }
 serde_json = { version = "1.0", default-features = false, optional = true }
-sqlx = { version = "0.7", default-features = false, optional = true }
+sqlx = { version = "0.7.5", default-features = false, optional = true }
 uuid = { version = "1", default-features = false, optional = true }
 ouroboros = { version = "0.17", default-features = false }
 url = { version = "2.2", default-features = false }
@@ -69,7 +74,6 @@ default = [
     "with-json",
     "with-chrono",
     "with-rust_decimal",
-    "with-bigdecimal",
     "with-uuid",
     "with-time",
 ]
@@ -79,7 +83,6 @@ proxy = ["serde_json", "serde/derive"]
 with-json = ["serde_json", "sea-query/with-json", "chrono?/serde", "time?/serde", "uuid?/serde", "sea-query-binder?/with-json", "sqlx?/json"]
 with-chrono = ["chrono", "sea-query/with-chrono", "sea-query-binder?/with-chrono", "sqlx?/chrono"]
 with-rust_decimal = ["rust_decimal", "sea-query/with-rust_decimal", "sea-query-binder?/with-rust_decimal", "sqlx?/rust_decimal"]
-with-bigdecimal = ["bigdecimal", "sea-query/with-bigdecimal", "sea-query-binder?/with-bigdecimal", "sqlx?/bigdecimal"]
 with-uuid = ["uuid", "sea-query/with-uuid", "sea-query-binder?/with-uuid", "sqlx?/uuid"]
 with-time = ["time", "sea-query/with-time", "sea-query-binder?/with-time", "sqlx?/time"]
 postgres-array = ["sea-query/postgres-array", "sea-query-binder?/postgres-array", "sea-orm-macros/postgres-array"]
